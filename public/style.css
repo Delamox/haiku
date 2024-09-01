@@ -385,3 +385,19 @@ label input {
     width: 15%; !important;
     float: right;
 }
+
+.info {
+    width: 50% !important;
+}
+
+.fields {
+    margin-top: 0px !important;
+}
+
+.title {
+    margin: auto;
+}
+
+.img {
+    width: 40% !important;
+}

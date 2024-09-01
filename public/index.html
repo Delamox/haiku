@@ -17,17 +17,18 @@
             <tr>
         </table>
 
-        
         <form hx-post=/search hx-target="#select" hx-swap=innerHTML>
             <input type=text name=searchbox class="inputbox" placeholder="search...">
             <input type=submit id="submitButton" value="search">
         </form>
-        <form hx-post=/select hx-target="#index" hx-swap=innerHTML>
-            <select name="select" id="select" class="inputbox">
-                
-            </select>
-            <input type=submit id="submitButton" value="select">
+        
+        <form hx-post=/info hx-target="#info" hx-swap=outerHTML>
+            <div hx-post=/select hx-target="#index" hx-swap=innerHTML>
+                <select name="select" id="select" class="inputbox" hx-disable></select>
+                <input type=submit id="submitButton" value="select">
+            </div>
         </form>
+        
         <form hx-post=/index hx-target="#link" hx-swap=innerHTML>
             <select name="index" id="index" class="inputbox">
                 
@@ -35,7 +36,9 @@
             <input type=submit id="submitButton" value="watch">
         </form>
         
-        <p id="link"></p>
+        <p id="link" style="color: black">this is where the link'll show up</p>
+        <div id=info>
+        </div>
         
 
         
