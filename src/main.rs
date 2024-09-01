@@ -5,64 +5,6 @@ use rocket::fs::FileServer;
 use rocket::http::uncased::AsUncased;
 use rocket::response::content::{self, RawHtml};
 
-#[allow(non_snake_case)]
-#[allow(dead_code)]
-#[derive(serde::Deserialize)]
-struct Search {
-    currentPage: u8,
-    hasNextPage: bool,
-    results: Vec<SearchElement>,
-}
-
-#[allow(non_snake_case)]
-#[allow(dead_code)]
-#[derive(serde::Deserialize, Default)]
-struct SearchElement {
-    id: String,
-    title: String,
-    url: String,
-    image: String,
-    releaseDate: String,
-    subOrDub: String,
-}
-
-#[allow(non_snake_case)]
-#[allow(dead_code)]
-#[derive(serde::Deserialize)]
-struct Select {
-    title: String,
-    image: String,
-    releaseDate: Option<String>,
-    description: Option<String>,
-    status: String,
-    totalEpisodes: u8,
-    episodes: Vec<SelectEpisode>,
-}
-
-#[allow(non_snake_case)]
-#[allow(dead_code)]
-#[derive(serde::Deserialize)]
-struct SelectEpisode {
-    id: String,
-    number: f32,
-}
-
-#[allow(non_snake_case)]
-#[allow(dead_code)]
-#[derive(serde::Deserialize)]
-struct Episode {
-    sources: Vec<Source>,
-}
-
-#[allow(non_snake_case)]
-#[allow(dead_code)]
-#[derive(serde::Deserialize)]
-struct Source {
-    url: String,
-    quality: String,
-    isM3U8: bool,
-}
-
 #[macro_use]
 extern crate rocket;
 
@@ -74,6 +16,7 @@ fn rocket() -> _ {
         .mount("/", routes![search, select, index, info])
 }
 
+//respond to index query with link
 #[post("/index", data = "<data>")]
 async fn index(data: Data<'_>) -> content::RawHtml<String> {
     let stream: String = data
@@ -120,6 +63,7 @@ fn construct_index_html(url: String) -> String {
     object
 }
 
+//respond to selection with episode list
 #[post("/select", data = "<data>")]
 async fn select(data: Data<'_>) -> content::RawHtml<String> {
     let stream: String = data
@@ -156,6 +100,7 @@ fn construct_select_html(json: String) -> String {
     construct
 }
 
+//respond to selection with info related
 #[post("/info", data = "<data>")]
 async fn info(data: Data<'_>) -> content::RawHtml<String> {
     let stream: String = data
@@ -224,6 +169,7 @@ fn construct_info_html(json: String) -> String {
     construct
 }
 
+//respond to search query with possible selections
 #[post("/search", data = "<data>")]
 async fn search(data: Data<'_>) -> content::RawHtml<String> {
     let stream: String = data
@@ -265,12 +211,13 @@ fn filter_sub(json: String) -> Vec<SearchElement> {
 
 fn construct_search_html(elements: Vec<SearchElement>) -> String {
     let mut construct: String = String::new();
-    for (_i, e) in elements.iter().enumerate() {
+    for e in elements.iter() {
         construct.push_str(format!("<option value=\"{}\">{}</option>", e.id, e.title).as_str())
     }
     construct
 }
 
+//common functions
 async fn searchapi(query: &str) -> Result<String, Error> {
     let res = reqwest::get(format!("http://localhost:3000/anime/gogoanime/{query}")).await?;
     let Ok(json) = res.text().await else {
@@ -285,4 +232,50 @@ fn _typeof<T>(_: &T) {
 
 fn _echo(data: &str) {
     println!("{data}")
+}
+
+#[allow(non_snake_case)]
+#[derive(serde::Deserialize)]
+struct Search {
+    results: Vec<SearchElement>,
+}
+
+#[allow(non_snake_case)]
+#[derive(serde::Deserialize, Default)]
+struct SearchElement {
+    id: String,
+    title: String,
+    subOrDub: String,
+}
+
+#[allow(non_snake_case)]
+#[derive(serde::Deserialize)]
+struct Select {
+    title: String,
+    image: String,
+    releaseDate: Option<String>,
+    description: Option<String>,
+    status: String,
+    totalEpisodes: u8,
+    episodes: Vec<SelectEpisode>,
+}
+
+#[allow(non_snake_case)]
+#[derive(serde::Deserialize)]
+struct SelectEpisode {
+    id: String,
+    number: f32,
+}
+
+#[allow(non_snake_case)]
+#[derive(serde::Deserialize)]
+struct Episode {
+    sources: Vec<Source>,
+}
+
+#[allow(non_snake_case)]
+#[derive(serde::Deserialize)]
+struct Source {
+    url: String,
+    quality: String,
 }
