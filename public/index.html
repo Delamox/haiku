@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+    <head>
+        <title>haiku</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="htmx.min.js"></script>
+    </head>
+    
+    <body>
+        <table class="header">
+            <tr>
+                <td colspan="2" rowspan="2" class="width-auto">
+                    <h1 class="title">HAIKU</h1>
+                    <span class="subtitle">i still need to put an actual haiku somewhere</span>
+                </td>
+            </tr>
+            <tr>
+        </table>
+
+        
+        <form hx-post=/search hx-target="#select" hx-swap=innerHTML>
+            <input type=text name=searchbox class="inputbox" placeholder="search...">
+            <input type=submit id="submitButton" value="search">
+        </form>
+        <form hx-post=/select hx-target="#index" hx-swap=innerHTML>
+            <select name="select" id="select" class="inputbox">
+                
+            </select>
+            <input type=submit id="submitButton" value="select">
+        </form>
+        <form hx-post=/index hx-target="#link" hx-swap=innerHTML>
+            <select name="index" id="index" class="inputbox">
+                
+            </select>
+            <input type=submit id="submitButton" value="watch">
+        </form>
+        
+        <p id="link"></p>
+        
+
+        
+
+    </body>
+</html>
+
