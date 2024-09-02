@@ -381,6 +381,11 @@ label input {
     float: left;
 }
 
+.inputboxfull {
+    width: 100% !important;
+    float: left;
+}
+
 #submitButton {
     width: 15%; !important;
     float: right;
@@ -401,3 +406,11 @@ label input {
 .img {
     width: 40% !important;
 }
+
+/*#info.htmx-added {*/
+/*  opacity: 0;*/
+/*}*/
+/*#info {*/
+/*  opacity: 1;*/
+/*  transition: opacity 1s ease-out;*/
+/*}*/
