@@ -18,27 +18,24 @@
             <tr>
         </table>
 
-        <form hx-post=/query hx-target="#select" hx-swap=innerHTML>
+        <form hx-post="/query" hx-target="#select" hx-swap=innerHTML>
             <input type=text name=search class="inputbox" placeholder="search...">
-            <input type=submit id="submitButton" value="search">
+            <button type=submit id="submitButton">search</button>
         </form>
         
-        <form>
-            <div hx-post=/query hx-target="#index" hx-swap=innerHTML>
-                <div hx-post=/info hx-target="#info" hx-swap="innerHTML">
-                    <select name="select" id="select" class="inputboxfull"></select>
-                    <!--<input type=submit id="submitButton" value="select" hx-post=/select hx-target="#index" hx-swap=innerHTML>-->
-                </div>
+        <form hx-post=/query hx-target="#index" hx-swap=innerHTML hx-trigger="click">
+            <div hx-post=/info hx-target="#info" hx-swap="innerHTML" hx-trigger="click">
+                <select name="select" id="select" class="inputbox" hx-trigger="click"></select>
+                <button type=submit id="submitButton" hx-post=/query hx-target="#index" hx-swap=innerHTML>select</button>
             </div>
         </form>
         
         <form hx-post=/query hx-target="#link" hx-swap=innerHTML>
             <select name="index" id="index" class="inputbox"></select>
-            <input type=submit id="submitButton" value="watch">
+            <button type=submit id="submitButton">watch</button>
         </form>
         
         <p id="link" style="color: black">this is where the link'll show up</p>
         <div id=info></div>
     </body>
 </html>
-
